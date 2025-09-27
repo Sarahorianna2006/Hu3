@@ -3,27 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace veterinaria_sanmiguel.Models;
 
-public class Cliente
+public class Cliente : Persona
 {
-    [Key]
-    public int id { get; set; }
-
-    [Required]
-    [MaxLength(100)]
-    public string nombre { get; set; }
-
-    [Required]
-    [MaxLength(100)]
-    public string apellido { get; set; }
 
     [Required]
     [MaxLength(200)]
     public string direccion { get; set; }
 
-    [Required]
-    [MaxLength(15)]
-    public string celular { get; set; }
-
+    //relacion del cliente con la mascota
+    public virtual ICollection<Mascota> Mascotas { get; set; } = new List<Mascota>();
 
     public Cliente(string nombre, string apellido, string direccion, string celular)
     {
@@ -32,6 +20,8 @@ public class Cliente
         this.direccion = direccion;
         this.celular = celular;
     }    
+
+    public Cliente() {}
     
 }
 

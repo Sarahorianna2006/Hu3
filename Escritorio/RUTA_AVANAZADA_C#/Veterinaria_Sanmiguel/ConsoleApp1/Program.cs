@@ -1,4 +1,9 @@
-﻿using veterinaria_sanmiguel.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using veterinaria_sanmiguel.Services;
+using veterinaria_sanmiguel.Data;
+using System;
+
 
 namespace veterinaria_sanmiguel;
 
@@ -6,6 +11,16 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        //Creamos el contexto de la base de datos
+        using var DbContext = new AppDbContext();
+
+        //Creamos el servicio de clientes y le "inyectamos" la conexión a la BD.
+        var ClienteServices = new ClienteServices(DbContext);
+        //servicio de mascotas
+        var MascotaServices = new MascotaService(DbContext);
+        //servicio de veternario
+        var veterinarioService = new VeterinarioService(DbContext);
+
         while (true)
         {
             Console.Clear();
@@ -24,15 +39,13 @@ public class Program
             switch (opcionMenuPrincipal)
             {
                 case "1":
-                    Console.WriteLine("Ha ingresado a gestion de clientes");
-                    ClienteServices clienteService1 = new ClienteServices(); //construimos el objeto
-                    clienteService1.gestionarClientes();//llamamos el metodo
+                    ClienteServices.gestionarClientes();//llamamos el metodo
                     break;
                 case "2":
-                    Console.WriteLine("Ha ingresado a gestion de mascotas");
+                    MascotaServices.gestionarMascotas();
                     break;
                 case "3":
-                    Console.WriteLine("Ha ingresado a gestion de veterinarios");
+                    veterinarioService.gestionarVeterinarios();
                     break;
                 case "4":
                     Console.WriteLine("Ha ingresado a gestion de atenciones medicas");

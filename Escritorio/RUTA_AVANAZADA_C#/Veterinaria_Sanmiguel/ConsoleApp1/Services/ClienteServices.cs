@@ -1,10 +1,19 @@
 using System;
+using veterinaria_sanmiguel.Data;
 using veterinaria_sanmiguel.Models;
 
 namespace veterinaria_sanmiguel.Services;
 
 public class ClienteServices
 {
+    private readonly AppDbContext _context;
+
+    //El constructor que exige el AppDbContext
+    public ClienteServices(AppDbContext context)
+    {
+        _context = context;
+    }
+
     private List<Cliente> _listaDeCLientes = new List<Cliente>();
     public void gestionarClientes()
     {
@@ -31,7 +40,7 @@ public class ClienteServices
                     editarCliente();
                     break;
                 case "4":
-                    Console.WriteLine("Ha ingresado a eliminar un cliente");
+                    eliminarCliente();
                     break;
                 case "5":
                     return;//finaliza la ejecucion del metodo actual y devuelve al menu principal
@@ -65,7 +74,9 @@ public class ClienteServices
 
         var nuevoCliente = new Cliente(nombre, apellido, direccion, celular);
 
-        _listaDeCLientes.Add(nuevoCliente);
+        _context.Add(nuevoCliente);
+
+        _context.SaveChanges();
 
         Console.WriteLine("Cliente registrado exitosamente");
     }
@@ -73,17 +84,20 @@ public class ClienteServices
     //nuevo metodo para listar clientes
     public void listarCLiente()
     {
+
+        var listaDataBase = _context.Clientes.ToList(); //Aquí se pide a _context que vaya a la tabla Clientes de la base de datos, traiga todos los registros que encuentre y los convierta en una List<Cliente>
+
         Console.Clear();
         Console.WriteLine("-- Lista de Clientes Registrados --\n");
 
-        if (_listaDeCLientes.Count == 0)
+        if (listaDataBase.Count == 0)
         {
             Console.WriteLine("No hay clientes para mostrar");
             return;
         }
-        foreach (var cliente in _listaDeCLientes)
+        foreach (var cliente in listaDataBase)
         {
-            Console.WriteLine($"ID del cliente: {_listaDeCLientes.IndexOf(cliente) + 1}");//IndexOf nos da la posición del cliente en la lista (que empieza en 0), y le sumamos 1 para que los IDs se muestren desde el 1
+            Console.WriteLine($"ID del cliente: {cliente.Id}");
             Console.WriteLine($"Nombre completo del cliente: {cliente.nombre} {cliente.apellido}");
             Console.WriteLine($"Dirección del cliente: {cliente.direccion}");
             Console.WriteLine($"Celular del cliente: {cliente.celular}");
@@ -101,59 +115,63 @@ public class ClienteServices
 
         listarCLiente();
 
-        if (_listaDeCLientes.Count == 0)
+        if (!_context.Clientes.Any())// pregunta si hay algun cliente. El ! lo niega.
         {
-            return; // Si no hay clientes, ListarClientes ya mostró el mensaje, así que solo salimos.
+            return;//Si no hay ningun cliente salimos del metodo.
         }
 
-        Console.Write("\nIngresa el ID del cliente que deseas editar: ");
-        string idSeleccionado = Console.ReadLine();
+        Console.WriteLine("Ingrese el ID del cliente que desea editar");
 
-        //esta primera parte pregunta: "¿Se puede convertir la entrada del usuario a un número entero? Si es así, guárdalo en la variable id".
-        if (int.TryParse(idSeleccionado, out int id) && id > 0 && id <= _listaDeCLientes.Count)
+        int.TryParse(Console.ReadLine(), out int id);//intenta convertir el dato a int y si es exitoso lo guarda en la variable id
+
+        var clienteAEditar = _context.Clientes.Find(id);//buscamos el cliente por su id y lo almacenamos en variable
+
+        if (clienteAEditar != null)//si el cliente es diferente de null(o sea si e encuentra)
         {
-            var clienteAEditar = _listaDeCLientes[id - 1];//-1 por que las listas empiezan en 0, para encontrar el indice que ingrese el usuario
-
             Console.WriteLine($"Editando a {clienteAEditar.nombre} {clienteAEditar.apellido}");
-            Console.WriteLine("Si no desea cambiar algun valor presione enter");
+            Console.WriteLine("Nota: Si no desea cambiar el dato presione enter");
 
-            //pedimos los nuevos datos
-            Console.WriteLine($"Nuevo nombre para {clienteAEditar.nombre}: ");
+            Console.WriteLine($"Ingrese nuevo nombre para {clienteAEditar.nombre}");
             string nuevoNombre = Console.ReadLine();
 
-            if (!string.IsNullOrEmpty(nuevoNombre))
+            if (!string.IsNullOrEmpty(nuevoNombre))//si esta vacio o es nulo el nuevo nombre
             {
-                clienteAEditar.nombre = nuevoNombre;//si esta vacio o nulo se asigna el mismo nombre que tenía
+                clienteAEditar.nombre = nuevoNombre;//se deja el mismo nombre para nuevo nombre
             }
 
-            Console.WriteLine($"Nuevo apellido para {clienteAEditar.apellido}: ");
+            Console.WriteLine($"Ingrese el nuevo apellido para {clienteAEditar.apellido}");
             string nuevoApellido = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(nuevoApellido))
             {
-                clienteAEditar.apellido = nuevoApellido;//si esta vacio o nulo se asigna el mismo nombre que tenía
+                clienteAEditar.apellido = nuevoApellido;
             }
 
-            Console.WriteLine($"Nueva direccion para {clienteAEditar.direccion}: ");
+            Console.WriteLine($"Ingrese nueva direccion para {clienteAEditar.direccion}");
             string nuevaDireccion = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(nuevaDireccion))
             {
-                clienteAEditar.direccion = nuevaDireccion;//si esta vacio o nulo se asigna el mismo nombre que tenía
+                clienteAEditar.apellido = nuevaDireccion;
             }
 
-            Console.WriteLine($"Nuevo celular para {clienteAEditar.nombre}: ");
+            Console.WriteLine($"Ingrese nuevo celular para {clienteAEditar.celular}");
             string nuevoCelular = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(nuevoCelular))
             {
-                clienteAEditar.celular = nuevoCelular;//si esta vacio o nulo se asigna el mismo nombre que tenía
+                clienteAEditar.celular = nuevoCelular;
             }
+
+            _context.SaveChanges();
+            Console.WriteLine("Cliente guardado exitosamente");
+
         }
         else
         {
-            Console.WriteLine("ID no válido. Por favor, intenta de nuevo.");
+            Console.WriteLine("Por favor ingresa un ID valido");
         }
+
     }
 
     //metodo para eliminar cliente
@@ -164,38 +182,41 @@ public class ClienteServices
 
         listarCLiente();
 
-        if (_listaDeCLientes.Count == 0)
+        if (!_context.Clientes.Any())
         {
             return;
         }
 
-        Console.WriteLine("Ingresa el ID del cliente que deseas eliminar: ");
-        string idSeleccionado = Console.ReadLine();
+        Console.WriteLine("Ingresa el ID del cliente que deseas editar");
+        int.TryParse(Console.ReadLine(), out int id);
 
-        if (int.TryParse(idSeleccionado, out int id) && id > 0 && id <= _listaDeCLientes.Count)
+        var clienteAEliminar = _context.Clientes.Find(id);
+
+        if (clienteAEliminar != null)
         {
-            var clienteAEliminar = _listaDeCLientes[id - 1];
-
             Console.WriteLine($"Has seleccionado a {clienteAEliminar.nombre} {clienteAEliminar.apellido}");
+            Console.WriteLine("Estas seguro que deseas eliminarlo? (s/n)");
 
-            Console.WriteLine("Esta seguro que desea eliminar a este cliente?");
-            string confirmacion = Console.ReadLine().ToLower();
+            string confirmacionEliminar = Console.ReadLine().ToLower();
 
-            if (confirmacion == "s")
+            if (confirmacionEliminar == "s")
             {
-                //El método RemoveAt() elimina el elemento en el índice especificado.
-                _listaDeCLientes.RemoveAt(id - 1);
-                Console.WriteLine("Cliente eliminado exitosamente");
+                _context.Clientes.Remove(clienteAEliminar);
+                _context.SaveChanges();
+                Console.WriteLine("El cliente fue eliminado exitosamente");
             }
             else
             {
                 Console.WriteLine("Operación cancelada");
+
             }
         }
-         else
+        else
         {
-            Console.WriteLine("ID no válido. Por favor, intenta de nuevo.");
+            Console.WriteLine("Por favor ingrese un ID valido");
         }
+
+        
 
 
     }

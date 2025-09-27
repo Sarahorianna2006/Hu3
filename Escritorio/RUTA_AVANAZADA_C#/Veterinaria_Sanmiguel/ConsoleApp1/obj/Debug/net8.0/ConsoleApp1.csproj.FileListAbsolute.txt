@@ -116,3 +116,4 @@
 /home/jhonse/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.pdb
 /home/jhonse/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.genruntimeconfig.cache
 /home/jhonse/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/obj/Debug/net8.0/ref/ConsoleApp1.dll
+/home/jhonse/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/obj/Debug/net8.0/ConsoleApp1.sourcelink.json
