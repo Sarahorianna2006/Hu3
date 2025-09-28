@@ -233,5 +233,24 @@ namespace veterinaria_sanmiguel.Services
                 Console.WriteLine("\nID de veterinario no encontrado");
             }
         }
+
+        public void veterinarioTop()
+        {
+            var veterinario = _context.Veterinarios
+                .Select(v => new
+                {
+                    v.nombre,
+                    TotalAtenciones = v.Atenciones.Count()
+                }).OrderByDescending(v => v.TotalAtenciones)
+                .FirstOrDefault();
+            if (veterinario != null)
+            {
+                Console.WriteLine($"\nEl veterinario con mas atenciones es {veterinario.nombre} con {veterinario.TotalAtenciones} atenciones\n");
+            }
+            else
+            {
+                Console.WriteLine("\nNo se encontro ningun veterinario\n");
+            }
+        }
     }
 }

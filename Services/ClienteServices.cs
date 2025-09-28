@@ -1,4 +1,5 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using veterinaria_sanmiguel.Data;
 using veterinaria_sanmiguel.Models;
 
@@ -219,5 +220,57 @@ public class ClienteServices
         
 
 
+    }
+
+    public void mascotasCliente()
+    {
+        Console.WriteLine("\nIngrese el nombre del cliente");
+        string nombreCliente = Console.ReadLine();
+
+        var cliente = _context.Clientes
+            .Include(c => c.Mascotas)
+            .FirstOrDefault(c => c.nombre.ToLower() == nombreCliente.ToLower());
+        
+        var listaMascotas = cliente?.Mascotas.ToList() ?? new List<Mascota>();
+
+        if (listaMascotas.Count == 0)
+        {
+            Console.WriteLine("\nNo se encontraron macotas para el cliente\n");
+            
+        }
+        else
+        {
+            Console.WriteLine($"Mascotas de {cliente.nombre}\n");
+            foreach (var mascota in listaMascotas)
+            {
+                Console.WriteLine($@"Nombre de la mascota: {mascota.Nombre}
+Edad de la mascota: {mascota.Edad}
+Especie: {mascota.Especie}
+Raza: {mascota.Raza}
+");
+            }
+        }
+        
+        
+    }
+
+    public void clienteMasMascotas()
+    {
+        var clienteTop = _context.Clientes
+            .Select(c => new
+            {
+                Nombre = c.nombre,
+                TotalMascotas = c.Mascotas.Count()
+            })
+            .OrderByDescending(c => c.TotalMascotas)
+            .FirstOrDefault();
+        if (clienteTop != null)
+        {
+            Console.WriteLine($"\nEl Cliente con mas mascotas registradas es {clienteTop.Nombre} con {clienteTop.TotalMascotas} mascotas\n");
+        }
+        else
+        {
+            Console.WriteLine("\nNo se pudo encontrar cliente\n");
+        }
     }
 }
