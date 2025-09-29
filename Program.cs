@@ -35,7 +35,8 @@ public class Program
             Console.WriteLine("3. Gestión de veterinarios");
             Console.WriteLine("4. Gestión de atencione medicas");
             Console.WriteLine("5. Historial medico");
-            Console.WriteLine("6. Salir");
+            Console.WriteLine("6.Consultas Avanzadas");
+            Console.WriteLine("7. Salir");
             Console.WriteLine("----------------------------------------");
             Console.WriteLine("Por favor seleccione una opción");
 
@@ -59,6 +60,52 @@ public class Program
                     historialMedicoService.gestionarHistorial();
                     break;
                 case "6":
+                    
+                    string consulta = "0";
+                    while (consulta != "5")
+                    {
+                        Console.Clear();
+                        Console.WriteLine(@"-----Bienvenido a las consultas avanzadas-----
+1. Mostrar mascotas de un cliente
+2. Mostrar veterinario con mas citas
+3. Mostrar especie mas tratada
+4. Mostrar cliente con mas mascotas registradas
+5.Salir al menu
+Porfavor seleccione una opcion: ");
+                        consulta = Console.ReadLine();
+                        switch (consulta)
+                        {
+                            case "1":
+                                ClienteServices.mascotasCliente();
+                                break;
+                            case "2":
+                                veterinarioService.veterinarioTop();
+                                break;
+                            case "3" :
+                                MascotaServices.especieMasAtendida();
+                                break;
+                            case "4":
+                                ClienteServices.clienteMasMascotas();
+                                break;
+                            case "5" :
+                                Console.WriteLine("Tenga buen dia");
+                                break;
+                            default:
+                                Console.WriteLine("Ingrese una opcion valida");
+                                break;
+                        }
+
+                        if (consulta != "5")
+                        {
+                            Console.WriteLine("\nPresiona una tecla para continuar...");
+                            Console.ReadKey();
+                        }
+                        
+                    }
+
+                    break;
+                    
+                case "7":
                     Console.WriteLine("saliendo del sistema...");
                     return; //return termina la ejecucion del metodo Main y cierra el programa                                                                               
                 default:

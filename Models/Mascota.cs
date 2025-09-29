@@ -26,7 +26,9 @@ public class Mascota
     public int ClienteId { get; set; } //Clave Foránea: Guarda el ID del dueño de la mascota
 
     [ForeignKey("ClienteId")]//Permite acceder al objeto Cliente completo desde una Mascota
-    public virtual Cliente Cliente { get; set; } 
-    
+    public virtual Cliente Cliente { get; set; }
+
+    public List<AtencionMedica> Atenciones { get; set; }= new();
+
 
 }

@@ -2934,19 +2934,19 @@
     ]
   },
   "packageFolders": {
-    "/home/sarah/.nuget/packages/": {}
+    "/home/tequie/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/sarah/Descargas/Hu3-jhon/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/ConsoleApp1.csproj",
+      "projectUniqueName": "/home/tequie/Documents/GitHub/Hu3/ConsoleApp1.csproj",
       "projectName": "ConsoleApp1",
-      "projectPath": "/home/sarah/Descargas/Hu3-jhon/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/ConsoleApp1.csproj",
-      "packagesPath": "/home/sarah/.nuget/packages/",
-      "outputPath": "/home/sarah/Descargas/Hu3-jhon/Escritorio/RUTA_AVANAZADA_C#/Veterinaria_Sanmiguel/ConsoleApp1/obj/",
+      "projectPath": "/home/tequie/Documents/GitHub/Hu3/ConsoleApp1.csproj",
+      "packagesPath": "/home/tequie/.nuget/packages/",
+      "outputPath": "/home/tequie/Documents/GitHub/Hu3/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/sarah/.nuget/NuGet/NuGet.Config"
+        "/home/tequie/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2964,11 +2964,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3012,7 +3007,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.414/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.119/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

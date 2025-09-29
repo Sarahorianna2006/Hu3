@@ -260,4 +260,26 @@ public class MascotaService
             Console.WriteLine("\nID de mascota no válido o no encontrado.");
         }
     }
+
+    public void especieMasAtendida()
+    {
+        var especieTop = _context.AtencionesMedicas
+            .Include(a => a.Mascota)
+            .GroupBy(a => a.Mascota.Especie)
+            .Select(g => new
+            {
+                Especie = g.Key,
+                TotalAtenciones = g.Count()
+            })
+            .OrderByDescending(g => g.TotalAtenciones)
+            .FirstOrDefault();
+        if (especieTop != null)
+        {
+            Console.WriteLine($"\nLa especie mas atendida es {especieTop.Especie} con {especieTop.TotalAtenciones} atenciones realizadas\n");
+        }
+        else
+        {
+            Console.WriteLine("\nNo se encontraron mascotas\n");
+        }
+    }
 }
