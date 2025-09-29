@@ -166,14 +166,14 @@ public void ListarMascotas(int clienteId)
 ### Diagrama de Clases
 Representa las entidades principales del sistema (Cliente, Mascota, Veterinario, Atención Médica) y sus relaciones.  
 
-![Diagrama de Clases](./img/clases.png)
+![Diagrama de Clases](./imagenes/clases.png)
 
 ---
 
 ### Diagrama de Casos de Uso
 Muestra cómo interactúa el usuario con el sistema (registrar cliente, registrar mascota, registrar atención, consultas avanzadas, etc.).
 
-![Diagrama de Casos de Uso](./img/caso_de_uso.jpeg)
+![Diagrama de Casos de Uso](./imagenes/caso_de_uso.jpeg)
 
 ---
 
